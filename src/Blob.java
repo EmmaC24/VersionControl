@@ -18,12 +18,14 @@ public class Blob {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
         String contents=  new String(encoded, StandardCharsets.UTF_8); 
         String fileString = new String(encoded);
+        System.out.println (fileString);
         sha1Code=getSha1Name(contents);
         
-        File sha1File = new File(".\\objects\\"+sha1Code);
+        File sha1File = new File("objects/"+sha1Code);
         sha1File.createNewFile();
         
-        FileWriter myWriter = new FileWriter(sha1File.getName());
+        FileWriter myWriter = new FileWriter(sha1File);
+        //FileWriter myWriter = new FileWriter(sha1File.getName());
         myWriter.write(fileString);
         myWriter.close();
         
