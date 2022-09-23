@@ -10,25 +10,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
 
-public class Index {
+public class RIndex {
 	
 	private  String sha1Contents;
 	private HashMap<String, String> blobList;
 	
-	public Index() {
+	public RIndex() {
 		blobList= new HashMap<String, String>();
 	}
 	
 	public void init() {
-		new File("./object").mkdirs();
-		File f = new File("./object/"+"index");
+		new File("./objects").mkdirs();
+		File f = new File("./objects/"+"index");
 		
 	}
 	
 	//adds the blob of the file contents to the object folder
 	//also adds to the index file: the key value pair of file name and the corresponding sha1(of contents)
 	public void add(String fileName) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get("./"+fileName+"/"));
+		byte[] encoded = Files.readAllBytes(Paths.get("./"+fileName));
         String contents=  new String(encoded, StandardCharsets.UTF_8); 
 		
 		sha1Contents=getSha1Name(contents);
@@ -41,18 +41,19 @@ public class Index {
        // blobList.put(fileName, sha1Code);
        // Blob blob= new blob(m_testDirectory +filename, false , true);
 		
-		File sha1File = new File("./object/"+sha1Contents);
+		File sha1File = new File("./objects/"+sha1Contents);
         sha1File.createNewFile();
         
         blobList.put(fileName, sha1Contents);
         
-        new FileWriter("./object/"+"index", false).close();
-        FileWriter myWriter = new FileWriter("index");
+        //new FileWriter("./objects/"+"index", false).close();
+        FileWriter myWriter = new FileWriter("objects/index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {
 			try {
 				myWriter.write(k+" : "+v+"\n");
+				System.out.println (k+" : "+v+"\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -68,8 +69,8 @@ public class Index {
 		String sha1OfFileToRemove= blobList.get(fileToRemove);
 		blobList.remove(fileToRemove);
 		
-		new FileWriter("./object/"+"index", false).close();
-        FileWriter myWriter = new FileWriter("index");
+		new FileWriter("./objects/"+"index", false).close();
+        FileWriter myWriter = new FileWriter("./objects/"+"index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {
@@ -83,7 +84,7 @@ public class Index {
         myWriter.close();
 		
         
-        String path= "./object/"+ sha1OfFileToRemove;
+        String path= "./objects/"+ sha1OfFileToRemove;
 		Files.delete(Paths.get(path));
         
         

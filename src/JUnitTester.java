@@ -50,7 +50,7 @@ class JUnitTester {
 	@Test
 	static void testIndex() throws IOException {
 		FileWriter ike = new FileWriter(f);
-		Index i = new Index();
+		RIndex i = new RIndex();
 		i.init();
 		
 		File testIndex = new File("index");
