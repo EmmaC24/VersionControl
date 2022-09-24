@@ -8,10 +8,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MrTopicsMan {
+public class RTreeHelper {
 	private static FileWriter ike;
 	private BufferedReader mike;
-	public MrTopicsMan() {
+	public RTreeHelper() {
 		
 	}
 	

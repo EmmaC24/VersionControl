@@ -72,7 +72,7 @@ class JUnitTester {
 	@Test
 	static void testBlobSet() throws IOException {
 		ArrayList<String> testList = new ArrayList<String>();
-		MrTopicsMan help = new MrTopicsMan();
+		RTreeHelper help = new RTreeHelper();
 		String s = "";
 		String temp = "blob : 94e66df8cd09d410c62d9e0dc59d3a884e458e05";
 		testList.add(temp);
@@ -80,7 +80,7 @@ class JUnitTester {
 		temp = "blob : 78c9a53e2f28b543ea62c8266acfdf36d5c63e61";
 		testList.add(temp);
 		s+=temp;
-		BlobSet set = new BlobSet(testList);
+		RTree set = new RTree(testList);
 		File testFile = new File(".\\objects\\"+set.getSetName());
 //		assertTrue(help.readContents(testFile).equals(s));
 	}

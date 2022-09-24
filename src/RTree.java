@@ -5,21 +5,30 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class BlobSet {
+public class RTree {
 	ArrayList<String> list = new ArrayList<String>();
 	String fileName;
-	public BlobSet(ArrayList<String> input) throws IOException {
+	public RTree(ArrayList<String> input) throws IOException {
+		list = input;
 		String temp = "";
-		MrTopicsMan help = new MrTopicsMan();
-		for(String s : input) {
-			temp+=s+"\n";
+		RTreeHelper help = new RTreeHelper();
+		for(int k = 0; k < list.size(); k++) {
+	
+			if (k != list.size()-1)
+			{
+				temp += list.get(k) + "\n";
+			}
+			else
+			{
+				temp += list.get(k);
+			}
 		}
 		
 		fileName = help.shaify(temp);
-		File f = new File(".\\objects\\"+fileName);
-		MrTopicsMan.writeTo(f,temp);
+		File f = new File("objects/"+fileName);
+		RTreeHelper.writeTo(f,temp);
+
 		
-		list = input;
 	}
 	
 	public String getSetName() {
