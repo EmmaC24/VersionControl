@@ -14,7 +14,8 @@ public class RBlobTester {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		Blob test = new Blob("remy'sBlob.txt");
+		RBlob test = new RBlob("remy'sBlob.txt");
+		
 		
 		
 	}

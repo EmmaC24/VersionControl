@@ -10,11 +10,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
 
-public class Blob {
+public class RBlob {
 	
 	private String sha1Code; 
 	
-	public Blob(String path) throws IOException {
+	public RBlob(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
         String contents=  new String(encoded, StandardCharsets.UTF_8); 
         String fileString = new String(encoded);

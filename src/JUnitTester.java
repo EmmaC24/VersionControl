@@ -31,7 +31,7 @@ class JUnitTester {
 	@Test
 	static void testBlob() throws IOException {
 		
-		Blob b = new Blob("Erik's test file");
+		RBlob b = new RBlob("Erik's test file");
 		
 		String temp = "";
 		File test = new File(".\\objects\\"+b.getSha1FileName());

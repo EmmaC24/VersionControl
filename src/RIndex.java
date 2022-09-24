@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Blob;
 import java.util.Formatter;
 import java.util.HashMap;
 
@@ -32,21 +33,21 @@ public class RIndex {
         String contents=  new String(encoded, StandardCharsets.UTF_8); 
 		
 		sha1Contents=getSha1Name(contents);
+		
+		RBlob b = new RBlob (fileName);
 //		
 //		File sha1File = new File("./object/"+sha1Code);//is it ok to add it here?
 //        sha1File.createNewFile();
-//        
-//        
+  
         
        // blobList.put(fileName, sha1Code);
        // Blob blob= new blob(m_testDirectory +filename, false , true);
 		
-		File sha1File = new File("./objects/"+sha1Contents);
-        sha1File.createNewFile();
+//		File sha1File = new File("./objects/"+sha1Contents);
+//        sha1File.createNewFile();
         
         blobList.put(fileName, sha1Contents);
         
-        //new FileWriter("./objects/"+"index", false).close();
         FileWriter myWriter = new FileWriter("objects/index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
@@ -59,9 +60,7 @@ public class RIndex {
 				e.printStackTrace();
 			}
 		});
-        myWriter.close();
-        
-        
+        myWriter.close();  
 		
 	}
 	
