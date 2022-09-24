@@ -46,7 +46,7 @@ public class RIndex {
 //		File sha1File = new File("./objects/"+sha1Contents);
 //        sha1File.createNewFile();
         
-        blobList.put(fileName, sha1Contents);
+        blobList.put(fileName, (sha1Contents + " " + fileName));
         
         FileWriter myWriter = new FileWriter("objects/index");
       
@@ -65,7 +65,7 @@ public class RIndex {
 	}
 	
 	public void remove(String fileToRemove) throws IOException {
-		String sha1OfFileToRemove= blobList.get(fileToRemove);
+		String sha1OfFileToRemove= blobList.get(fileToRemove).substring(0,40);
 		blobList.remove(fileToRemove);
 		
 		new FileWriter("./objects/"+"index", false).close();

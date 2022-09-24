@@ -13,7 +13,7 @@ public class RIndexTester {
 		test.init();
 		
 		test.add("remy'sBlob.txt");
-		test.remove("remy'sBlob.txt");
+		
 		
 		Path p1 = Paths.get("remy'sIndex1.txt");
         try {
@@ -31,6 +31,7 @@ public class RIndexTester {
         
         test.add("remy'sIndex1.txt");
         test.add("remy'sIndex2.txt");
+        test.remove("remy'sBlob.txt");
         test.remove ("remy'sIndex1.txt");
         test.remove("remy'sIndex2.txt");
       
