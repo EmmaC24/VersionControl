@@ -8,7 +8,9 @@ import java.util.ArrayList;
 public class RTree {
 	ArrayList<String> list = new ArrayList<String>();
 	String fileName;
-	public RTree(ArrayList<String> input) throws IOException {
+	String previousTree;
+	public RTree(ArrayList<String> input, String parentTree) throws IOException {
+		previousTree = parentTree;
 		list = input;
 		String temp = "";
 		RTreeHelper help = new RTreeHelper();
@@ -29,6 +31,11 @@ public class RTree {
 		RTreeHelper.writeTo(f,temp);
 
 		
+	}
+	
+	public String getParent()
+	{
+		return previousTree;
 	}
 	
 	public String getSetName() {

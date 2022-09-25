@@ -10,7 +10,7 @@ public class RTreeTester {
 		bt.add("tree: 29847937030");
 		bt.add("blob : 7937459834");
 		
-		RTree tree = new RTree (bt);
+		RTree tree = new RTree (bt, "");
 
 	}
 

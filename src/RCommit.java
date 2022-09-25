@@ -23,15 +23,22 @@ public class RCommit {
 	private String parent = "";
 	private String next = "";
 	private String fileLocation = "";
-	public String pTree = "";
+	private RTree tree;
 	public String date = "";
 	public String summary = "";
 		
-		public RCommit (String tree, String sum, String auth, String par) throws IOException
+		public RCommit (String sum, String auth, String par) throws IOException
 		{
 			
+			ArrayList <String> indexBlobs = new ArrayList <String> ();
+			indexBlobs = convertIndexToArrayList();
+			if (!parent.equals(""))
+			{
+				indexBlobs.add("tree : " + getParentTree (par));
+			}
+			tree = new RTree (indexBlobs, getParentTree (par));
+			clearIndex();
 			//do we need to create the objects folder?
-			pTree = tree;
 			summary = sum;
 			author = auth;
 			parent = par;
@@ -41,6 +48,26 @@ public class RCommit {
 			updateParent (par);
 			
 			
+		}
+		
+		public void clearIndex() throws FileNotFoundException
+		{
+			PrintWriter writer = new PrintWriter("./objects/" + "index");
+			writer.print("");
+			writer.close();
+		}
+		
+		public String getParentTree (String p) throws IOException
+		{
+			String parentT = "";
+			if (!parent.equals(""))
+			{
+				BufferedReader b = new BufferedReader (new FileReader ("objects/" + p));
+				parentT += b.readLine();
+				b.close();
+
+			}
+			return parentT;
 		}
 		
 		public ArrayList <String> convertIndexToArrayList () throws IOException
@@ -82,16 +109,16 @@ public class RCommit {
 			}
 		}
 		
-		public String getTree()
+		public RTree getTree()
 		{
-			return pTree;
+			return tree;
 		}
 		
 		
 		public String getFileContents()
 		{
 			String contents = "";
-			contents += "objects/" + pTree + "\n";
+			contents += "objects/" + tree.getSetName() + "\n";
 			if (!parent.equals (""))
 			{
 				contents += "objects/" + parent + "\n";
@@ -119,7 +146,7 @@ public class RCommit {
 		public String getFileNameContents()
 		{
 			String contents = "";
-			contents += "objects/" + pTree + "\n";
+			contents += "objects/" + tree.getSetName() + "\n";
 			contents += author + "\n";
 			contents += date + "\n";
 			contents += summary;
