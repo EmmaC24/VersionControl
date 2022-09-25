@@ -31,7 +31,7 @@ public class RIndexTester {
         
         test.add("remy'sIndex1.txt");
         test.add("remy'sIndex2.txt");
-        test.remove("remy'sBlob.txt");
+        //test.remove("remy'sBlob.txt");
         test.remove ("remy'sIndex1.txt");
         test.remove("remy'sIndex2.txt");
       

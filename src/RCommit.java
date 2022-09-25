@@ -14,7 +14,8 @@ import java.io.BufferedReader;
 	import java.sql.Date;
 	import java.text.DateFormat;
 	import java.text.SimpleDateFormat;
-	import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Calendar;
 	
 	
 public class RCommit {
@@ -40,6 +41,23 @@ public class RCommit {
 			updateParent (par);
 			
 			
+		}
+		
+		public ArrayList <String> convertIndexToArrayList () throws IOException
+		{
+			BufferedReader br = new BufferedReader (new FileReader ("objects/" + "index"));
+			ArrayList <String> indexContents = new ArrayList <String>();
+			String currentLine = br.readLine();
+			while (currentLine != null)
+			{
+				if (!currentLine.equals(""))
+				{
+					indexContents.add(currentLine);
+				}
+				currentLine = br.readLine();
+			}
+			br.close();
+			return indexContents;
 		}
 		
 		public void updateParent(String p) throws IOException
