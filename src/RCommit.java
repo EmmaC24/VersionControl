@@ -23,33 +23,45 @@ public class RCommit {
 	private String parent = "";
 	private String next = "";
 	private String fileLocation = "";
+	private ArrayList <String> indexArrayList;
 	private RTree tree;
 	public String date = "";
 	public String summary = "";
+	private String parentTree ="";
 		
 		public RCommit (String sum, String auth, String par) throws IOException
 		{
-			
-			ArrayList <String> indexBlobs = new ArrayList <String> ();
-			indexBlobs = convertIndexToArrayList();
+			parent = par;
+			indexArrayList = new ArrayList <String> ();
+			indexArrayList = convertIndexToArrayList();
+			System.out.println ("parentTreeName: " + getParentTree(par));
 			if (!parent.equals(""))
 			{
-				indexBlobs.add("tree : " + getParentTree (par));
+				indexArrayList.add("tree : " + getParentTree(par));
 			}
-			tree = new RTree (indexBlobs, getParentTree (par));
+			System.out.println("indexArrayList: " + indexArrayList);
+			
+			tree = new RTree (indexArrayList, getParentTree(par));
 			clearIndex();
+			indexArrayList.clear();
 			//do we need to create the objects folder?
 			summary = sum;
 			author = auth;
-			parent = par;
+			
 			date = getDate();
 			//fileLocation = getLocation();
 			createFile();
 			updateParent (par);
 			
 			
+			
 		}
 		
+		public ArrayList <String> getindexArray()
+		{
+			return indexArrayList;
+		}
+	
 		public void clearIndex() throws FileNotFoundException
 		{
 			PrintWriter writer = new PrintWriter("./objects/" + "index");
@@ -63,7 +75,7 @@ public class RCommit {
 			if (!parent.equals(""))
 			{
 				BufferedReader b = new BufferedReader (new FileReader ("objects/" + p));
-				parentT += b.readLine();
+				parentT += b.readLine().substring(8);
 				b.close();
 
 			}
@@ -90,9 +102,12 @@ public class RCommit {
 		public void updateParent(String p) throws IOException
 		{
 			String parentContents = "";
+//			String firstLine = "";
 			if (!parent.equals(""))
 			{
 				BufferedReader buffy = new BufferedReader (new FileReader ("objects/" + p));
+//				firstLine = buffy.readLine();
+//				parentTree = firstLine.substring (8);
 				parentContents += buffy.readLine() + "\n";
 				parentContents += buffy.readLine() + "\n";
 				parentContents += "objects/" + generateSHA1 (getFileNameContents()) + "\n";
