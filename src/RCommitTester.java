@@ -3,11 +3,15 @@ import java.io.IOException;
 public class RCommitTester {
 
 	public static void main(String[] args) throws IOException {
-		RCommit original = new RCommit ("i'm tree", "here's the summary", "Emma Miller", "");
+		RIndex i = new RIndex();
+		i.add("remy'sIndex1.txt");
+        
+		RCommit original = new RCommit ("here's the summary", "Emma Miller", "");
 		System.out.println ("RCommitTester is running :)");
-		RCommit second = new RCommit ("i'm a tree too", "i'm summary", "Emma Miller","d557356b62a05c65503bc45be6b9ca38f8707a94");
-		RCommit third = new RCommit ("i'm final tree", "summary", "Emma Miller", "4a2215f634bf545dc23aa3602b9571a7e0fb94dd");
-		
+		i.add("remy'sIndex2.txt");
+		RCommit second = new RCommit ("i'm summary", "Emma Miller","d0dc93c857db8d52847ee70f1d5487bc92485955");
+		i.add("remy'sBlob.txt");
+		RCommit third = new RCommit ("summary", "Emma Miller", "2f6e256fb1b04c7a70fb63e3d879b254274726b1");
 		System.out.println (original.convertIndexToArrayList());
 	}
 
