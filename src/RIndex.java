@@ -26,6 +26,16 @@ public class RIndex {
 		
 	}
 	
+	public void delete(String fileName)
+	{
+		blobList.put(fileName, "*deleted*" + fileName);
+	}
+	
+	public void edit(String fileName)
+	{
+		
+	}
+	
 	//adds the blob of the file contents to the object folder
 	//also adds to the index file: the key value pair of file name and the corresponding sha1(of contents)
 	public void add(String fileName) throws IOException {
@@ -46,15 +56,16 @@ public class RIndex {
 //		File sha1File = new File("./objects/"+sha1Contents);
 //        sha1File.createNewFile();
         
-        blobList.put(fileName, (sha1Contents + " " + fileName));
+        blobList.put(fileName, ("blob : " + sha1Contents + " " + fileName));
         
         FileWriter myWriter = new FileWriter("index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {
 			try {
-				myWriter.write(k+" : "+v+"\n");
-				System.out.println (k+" : "+v+"\n");
+				//myWriter.write(k+" : "+v+"\n");
+				myWriter.write(v+"\n");
+				System.out.println (v+"\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -79,7 +90,7 @@ public class RIndex {
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {
 			try {
-				myWriter.write(k+" : "+v+"\n");
+				myWriter.write(v+"\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

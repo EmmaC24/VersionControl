@@ -11,10 +11,10 @@ public class RCommitTester {
 		RCommit original = new RCommit ("here's the summary", "Emma Miller", "");
 		i.resetRIndexArrayList();
 		i.add("remy'sIndex2.txt");
-		RCommit second = new RCommit ("i'm summary", "Emma Miller","c907291573d0fcbec859627991f459d6e8e4e6ce");
+		RCommit second = new RCommit ("i'm summary", "Emma Miller","a6f6a37fcd925e9f81b819a5ed992bdcac4cd31f");
 		i.resetRIndexArrayList();
 		i.add("remy'sBlob.txt");
-		RCommit third = new RCommit ("summary", "Emma Miller", "6d7ea47802882c1f167d3d8aab0e425cd3e01fb5");
+		RCommit third = new RCommit ("summary", "Emma Miller", "68c30019e6cb3dab8343d1359031cf1ab5f291b0");
 		i.resetRIndexArrayList();
 		//System.out.println (original.convertIndexToArrayList());
 	}
