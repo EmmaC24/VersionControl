@@ -22,7 +22,7 @@ public class RIndex {
 	
 	public void init() {
 		new File("./objects").mkdirs();
-		File f = new File("./objects/"+"index");
+		File f = new File("index");
 		
 	}
 	
@@ -48,7 +48,7 @@ public class RIndex {
         
         blobList.put(fileName, (sha1Contents + " " + fileName));
         
-        FileWriter myWriter = new FileWriter("objects/index");
+        FileWriter myWriter = new FileWriter("index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {
@@ -64,12 +64,17 @@ public class RIndex {
 		
 	}
 	
+	public void resetRIndexArrayList()
+	{
+		blobList.clear();
+	}
+	
 	public void remove(String fileToRemove) throws IOException {
 		String sha1OfFileToRemove= blobList.get(fileToRemove).substring(0,40);
 		blobList.remove(fileToRemove);
 		
-		new FileWriter("./objects/"+"index", false).close();
-        FileWriter myWriter = new FileWriter("./objects/"+"index");
+		new FileWriter("index", false).close();
+        FileWriter myWriter = new FileWriter("index");
       
        //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
         blobList.forEach((k,v) -> {

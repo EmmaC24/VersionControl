@@ -33,17 +33,21 @@ public class RCommit {
 		{
 			parent = par;
 			indexArrayList = new ArrayList <String> ();
+			System.out.println("EMPTY indexArrayList: " + indexArrayList);
 			indexArrayList = convertIndexToArrayList();
+			System.out.println("indexArrayList before tree added: " + indexArrayList);
 			System.out.println ("parentTreeName: " + getParentTree(par));
+			
 			if (!parent.equals(""))
 			{
 				indexArrayList.add("tree : " + getParentTree(par));
 			}
-			System.out.println("indexArrayList: " + indexArrayList);
+			System.out.println("indexArrayList after tree added: " + indexArrayList);
 			
 			tree = new RTree (indexArrayList, getParentTree(par));
 			clearIndex();
 			indexArrayList.clear();
+			System.out.println("indexArrayList after clear(): " + indexArrayList);
 			//do we need to create the objects folder?
 			summary = sum;
 			author = auth;
@@ -53,8 +57,6 @@ public class RCommit {
 			createFile();
 			updateParent (par);
 			
-			
-			
 		}
 		
 		public ArrayList <String> getindexArray()
@@ -62,11 +64,14 @@ public class RCommit {
 			return indexArrayList;
 		}
 	
-		public void clearIndex() throws FileNotFoundException
+		public void clearIndex() throws IOException
 		{
-			PrintWriter writer = new PrintWriter("./objects/" + "index");
-			writer.print("");
-			writer.close();
+			File clearedIndex = new File ("index");
+			clearedIndex.delete();
+			clearedIndex.createNewFile();
+//			PrintWriter writer = new PrintWriter("index");
+//			writer.print("");
+//			writer.close();
 		}
 		
 		public String getParentTree (String p) throws IOException
@@ -84,7 +89,7 @@ public class RCommit {
 		
 		public ArrayList <String> convertIndexToArrayList () throws IOException
 		{
-			BufferedReader br = new BufferedReader (new FileReader ("objects/" + "index"));
+			BufferedReader br = new BufferedReader (new FileReader ("index"));
 			ArrayList <String> indexContents = new ArrayList <String>();
 			String currentLine = br.readLine();
 			while (currentLine != null)

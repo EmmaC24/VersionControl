@@ -29,7 +29,8 @@ public class RTree {
 		fileName = help.shaify(temp);
 		File f = new File("objects/"+fileName);
 		RTreeHelper.writeTo(f,temp);
-
+		System.out.println ("TREE CONTENTS: " + temp);
+		
 		
 	}
 	
