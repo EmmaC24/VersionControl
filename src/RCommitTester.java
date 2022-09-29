@@ -16,6 +16,7 @@ public class RCommitTester {
 		i.add("remy'sBlob.txt");
 		RCommit third = new RCommit ("summary", "Emma Miller", "68c30019e6cb3dab8343d1359031cf1ab5f291b0");
 		i.resetRIndexArrayList();
+		i.delete("remy'sIndex1.txt");
 		//System.out.println (original.convertIndexToArrayList());
 	}
 

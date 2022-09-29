@@ -1,7 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,14 +28,44 @@ public class RIndex {
 		
 	}
 	
-	public void delete(String fileName)
+	public void delete(String fileName) throws IOException
 	{
-		blobList.put(fileName, "*deleted*" + fileName);
+		blobList.put(fileName + "deleted", "*deleted* " + fileName);
+		
+		FileWriter myWriter = new FileWriter("index");
+	      
+	       
+        blobList.forEach((k,v) -> {
+			try {
+				//myWriter.write(k+" : "+v+"\n");
+				myWriter.write(v+"\n");
+				System.out.println (v+"\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+        myWriter.close(); 
 	}
 	
-	public void edit(String fileName)
+	public void edit(String fileName) throws IOException
 	{
+		blobList.put(fileName + "edited", "*edited* " + fileName);
 		
+		FileWriter myWriter = new FileWriter("index");
+	      
+	       
+        blobList.forEach((k,v) -> {
+			try {
+				//myWriter.write(k+" : "+v+"\n");
+				myWriter.write(v+"\n");
+				System.out.println (v+"\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+        myWriter.close(); 
 	}
 	
 	//adds the blob of the file contents to the object folder
@@ -60,7 +92,7 @@ public class RIndex {
         
         FileWriter myWriter = new FileWriter("index");
       
-       //myWriter.write(blobList.toString()+"\n"); //does this work or do i need to for loop thru it
+       
         blobList.forEach((k,v) -> {
 			try {
 				//myWriter.write(k+" : "+v+"\n");

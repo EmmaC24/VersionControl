@@ -24,6 +24,8 @@ public class RCommit {
 	private String next = "";
 	private String fileLocation = "";
 	private ArrayList <String> indexArrayList;
+	private ArrayList <String> deleting;
+	private ArrayList <String> editing;
 	private RTree tree;
 	public String date = "";
 	public String summary = "";
@@ -32,6 +34,8 @@ public class RCommit {
 		public RCommit (String sum, String auth, String par) throws IOException
 		{
 			parent = par;
+			deleting = new ArrayList <String> ();
+			editing = new ArrayList <String> ();
 			indexArrayList = new ArrayList <String> ();
 			System.out.println("EMPTY indexArrayList: " + indexArrayList);
 			indexArrayList = convertIndexToArrayList();
@@ -59,6 +63,14 @@ public class RCommit {
 			
 		}
 		
+		
+		public ArrayList <String> generateArrayListTreeContents(Commit c)
+		{
+			ArrayList <String> treeContents = new ArrayList <String> ();
+			//check if the starting commit has a parent
+			//if (c.getParent().equals (""))
+			return treeContents;
+		}
 		public ArrayList <String> getindexArray()
 		{
 			return indexArrayList;
@@ -73,6 +85,7 @@ public class RCommit {
 //			writer.print("");
 //			writer.close();
 		}
+		
 		
 		public String getParentTree (String p) throws IOException
 		{
@@ -96,7 +109,18 @@ public class RCommit {
 			{
 				if (!currentLine.equals(""))
 				{
+					if (currentLine.contains ("*deleted*"))
+					{
+						deleting.add(currentLine.substring (9));
+					}
+					else if (currentLine.contains(("*edited*")))
+					{
+						editing.add(currentLine.substring(8));
+					}
+					else
+					{
 					indexContents.add(currentLine);
+					}
 				}
 				currentLine = br.readLine();
 			}
