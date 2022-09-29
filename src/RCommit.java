@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 	import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 	
 	
 public class RCommit {
@@ -63,14 +64,68 @@ public class RCommit {
 			
 		}
 		
+		public String getParentString (String commit) throws IOException
+		{
+			String pString = "";
+			if (!parent.equals(""))
+			{
+				BufferedReader buff = new BufferedReader (new FileReader ("objects/" + commit));
+				buff.readLine();
+				pString += buff.readLine().substring(8);
+				buff.close();
+
+			}
+			return pString;
+			
+		}
 		
-		public ArrayList <String> generateArrayListTreeContents(Commit c)
+		public String getCommitTreeSHA (String commit) throws IOException
+		{
+			String cTree = "";
+			{
+				BufferedReader buff = new BufferedReader (new FileReader ("objects/" + commit));
+				cTree = buff.readLine().substring(8);
+				buff.close();
+
+			}
+			return cTree;
+		}
+		
+		public String checkTreeForFile (String tree, String fileName)
+		{
+			File file = new File("objects/" + tree);
+
+			try {
+			    Scanner scanner = new Scanner(file);
+
+			    while (scanner.hasNextLine()) {
+			        String line = scanner.nextLine();
+			        if(line.contains(fileName)) { 
+			            return line.substring(7,48);
+			        }
+			        else if (line.substring(0,4).equals("tree"))
+			        {
+			        	return checkTreeForFile (line.substring(7), fileName);
+			        }
+			        
+			    }
+			} catch(FileNotFoundException e) { 
+			    System.out.println ("no file found in checkTreeForFile method");
+			}
+			String error = "this file never existed: " + fileName;
+			return error;
+		}
+		public ArrayList <String> generateArrayListTreeContents(String c) throws IOException
 		{
 			ArrayList <String> treeContents = new ArrayList <String> ();
-			//check if the starting commit has a parent
-			//if (c.getParent().equals (""))
+			if (getParentString(c).equals(""))
+			{
+				
+			}
+
 			return treeContents;
 		}
+		
 		public ArrayList <String> getindexArray()
 		{
 			return indexArrayList;
@@ -81,10 +136,8 @@ public class RCommit {
 			File clearedIndex = new File ("index");
 			clearedIndex.delete();
 			clearedIndex.createNewFile();
-//			PrintWriter writer = new PrintWriter("index");
-//			writer.print("");
-//			writer.close();
 		}
+		
 		
 		
 		public String getParentTree (String p) throws IOException
@@ -127,6 +180,7 @@ public class RCommit {
 			br.close();
 			return indexContents;
 		}
+		
 		
 		public void updateParent(String p) throws IOException
 		{
