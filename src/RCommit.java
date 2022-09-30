@@ -48,19 +48,24 @@ public class RCommit {
 			indexArrayList = convertIndexToArrayList();
 			System.out.println("indexArrayList before tree added: " + indexArrayList);
 			System.out.println ("parentTreeName: " + getParentTree(par));
-
-			if (!parent.equals("") && !indexArrayList.contains("*deleted*") && !indexArrayList.contains("*edited*"))
+			
+			if (!indexArrayList.contains("*deleted*") && !indexArrayList.contains("*edited*"))
 			{
+				if (!parent.equals(""))
+				{
+					indexArrayList.add("tree : " + getParentTree(par));
+				}
 				System.out.println ("IGOTHROUGHTHIS");
-				indexArrayList.add("tree : " + getParentTree(par));
+				
 				tree = new RTree (indexArrayList, getParentTree(par));
+				System.out.println("indexArrayList after tree added: " + indexArrayList);
 			}
 			else
 			{
 				indexArrayList = generateUpdatedTreeContents (indexArrayList);
 				tree = new RTree (indexArrayList, previousTree);
 			}
-			System.out.println("indexArrayList after tree added: " + indexArrayList);
+			
 			
 			
 			clearIndex();
