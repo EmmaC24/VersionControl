@@ -27,29 +27,42 @@ public class RCommit {
 	private ArrayList <String> indexArrayList;
 	private ArrayList <String> deleting;
 	private ArrayList <String> editing;
+	private ArrayList <String> pointingTrees;
+	private String previousTree = "";
 	private RTree tree;
 	public String date = "";
 	public String summary = "";
 	private String parentTree ="";
+	private String treeToPoint = "";
+	private ArrayList <String> allBlobs = new ArrayList <String> ();
 		
 		public RCommit (String sum, String auth, String par) throws IOException
 		{
 			parent = par;
 			deleting = new ArrayList <String> ();
 			editing = new ArrayList <String> ();
+			pointingTrees = new ArrayList <String> ();
 			indexArrayList = new ArrayList <String> ();
+			
 			System.out.println("EMPTY indexArrayList: " + indexArrayList);
 			indexArrayList = convertIndexToArrayList();
 			System.out.println("indexArrayList before tree added: " + indexArrayList);
 			System.out.println ("parentTreeName: " + getParentTree(par));
-			
-			if (!parent.equals(""))
+
+			if (!parent.equals("") && !indexArrayList.contains("*deleted*") && !indexArrayList.contains("*edited*"))
 			{
+				System.out.println ("IGOTHROUGHTHIS");
 				indexArrayList.add("tree : " + getParentTree(par));
+				tree = new RTree (indexArrayList, getParentTree(par));
+			}
+			else
+			{
+				indexArrayList = generateUpdatedTreeContents (indexArrayList);
+				tree = new RTree (indexArrayList, previousTree);
 			}
 			System.out.println("indexArrayList after tree added: " + indexArrayList);
 			
-			tree = new RTree (indexArrayList, getParentTree(par));
+			
 			clearIndex();
 			indexArrayList.clear();
 			System.out.println("indexArrayList after clear(): " + indexArrayList);
@@ -91,6 +104,53 @@ public class RCommit {
 			return cTree;
 		}
 		
+		public ArrayList<String> generateUpdatedTreeContents (ArrayList <String> indexContents) throws IOException
+		{
+			
+			for (int k = 0; k < indexContents.size(); k++)
+			{
+				if (indexContents.get(k).contains ("*deleted*"))
+				{
+					deleting.add(indexContents.get(k).substring(10));
+					checkTreeForFile (getParentTree (parent), indexContents.get(k).substring(10));
+					
+				}
+				else if (indexContents.get(k).contains ("*edited*"))
+				{
+					editing.add(indexContents.get(k).substring (9));
+				}
+			}
+			for (int k = 0; k < indexContents.size(); k++)
+			{
+				if (indexContents.get(k).contains ("*deleted*"))
+				{
+					checkTreeForFile (getParentTree (parent), indexContents.get(k).substring(10));
+					pointingTrees.add(treeToPoint);
+				}
+				if (indexContents.get(k).contains ("*edited*"))
+				{
+					checkTreeForFile (getParentTree (parent), indexContents.get(k).substring(9));
+					pointingTrees.add(treeToPoint);
+				}
+			}
+			
+			previousTree = "";
+			String currentCommit = parent;
+			while (!currentCommit.equals(""))
+			{
+				if (pointingTrees.contains(getCommitTreeSHA(currentCommit)))
+				{
+					previousTree = getCommitTreeSHA (currentCommit);
+				}
+				currentCommit = getParentString (currentCommit);
+			}
+			
+			allBlobs.add("tree : " + previousTree);
+			
+			return allBlobs;
+		}
+		
+		
 		public String checkTreeForFile (String tree, String fileName)
 		{
 			File file = new File("objects/" + tree);
@@ -100,11 +160,17 @@ public class RCommit {
 
 			    while (scanner.hasNextLine()) {
 			        String line = scanner.nextLine();
+			        if (line.substring (0,4).equals ("blob"))
+			        {
+			        	if (!line.contains (fileName)&& !deleting.contains (fileName) && !editing.contains(fileName))
+			        	allBlobs.add(line);
+			        }
 			        if(line.contains(fileName)) { 
 			            return line.substring(7,48);
 			        }
 			        else if (line.substring(0,4).equals("tree"))
 			        {
+			        	treeToPoint = line.substring(7);
 			        	return checkTreeForFile (line.substring(7), fileName);
 			        }
 			        
