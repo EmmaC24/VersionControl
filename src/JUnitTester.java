@@ -80,8 +80,8 @@ class JUnitTester {
 		temp = "blob : 78c9a53e2f28b543ea62c8266acfdf36d5c63e61";
 		testList.add(temp);
 		s+=temp;
-		RTree set = new RTree(testList);
-		File testFile = new File(".\\objects\\"+set.getSetName());
+		//RTree set = new RTree(testList);
+		//File testFile = new File(".\\objects\\"+set.getSetName());
 //		assertTrue(help.readContents(testFile).equals(s));
 	}
 	

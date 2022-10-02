@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +27,16 @@ public class RIndex {
 		new File("./objects").mkdirs();
 		File f = new File("index");
 		
+	}
+	
+	public void generateHeadFile()
+	{
+		Path p1 = Paths.get("HEAD");
+        try {
+            Files.writeString(p1, "", StandardCharsets.ISO_8859_1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public void delete(String fileName) throws IOException
