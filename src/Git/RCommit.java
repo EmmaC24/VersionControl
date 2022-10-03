@@ -73,13 +73,17 @@ public class RCommit {
 			else
 			{
 				System.out.println ("i go through edited/deleted");
-				indexArrayList = generateUpdatedTreeContents();
+				ArrayList <String> beforeAdded = new ArrayList <String>();
+				beforeAdded = generateUpdatedTreeContents();
+				for (int k = 0; k < indexArrayList.size(); k++)
+				{
+					beforeAdded.add(0,(indexArrayList.get (k)));
+				}
+				//indexArrayList = generateUpdatedTreeContents();
 				System.out.println ("updated arrayList w/ extra blobs: " + indexArrayList);
-				tree = new RTree (indexArrayList, previousTree);
+				tree = new RTree (beforeAdded, previousTree);
 				
 			}
-			
-			
 			
 			clearIndex();
 			indexArrayList.clear();
@@ -159,8 +163,11 @@ public class RCommit {
 			
 			for (int k = 0; k < editing.size(); k++)
 			{
+				System.out.println ("i got into editing");
 				checkTreeForFile (getParentTree(parent), editing.get(k));
 				addLeftOverFiles (treeToPoint);
+				System.out.println ("treeat: " + treeToPoint);
+				System.out.println ("treebefor: " + getTreeBefore(treeToPoint));
 				pointingTrees.add(getTreeBefore(treeToPoint));
 			}
 			System.out.println("Pointing trees array list: "+ pointingTrees);
@@ -237,15 +244,6 @@ public class RCommit {
 				        System.out.println ("this is current line: " +line);
 				        if (line.substring (0,4).equals ("blob"))
 				        {
-//				        	System.out.println ("substring line: " + line.substring(47));
-//				        	System.out.println (deleting.contains ("remy'sIndex2.txt"));
-//				        	boolean wtf1 = !deleting.contains (line.substring(47));
-//				        	boolean wft2 = (!editing.contains(line.substring(47)));
-//				        	boolean wft3 = (!allBlobs.contains(line));
-//				        	
-//				        	System.out.println ("wtf1: "+line.substring(47) + " "  + wtf1);
-//				        	System.out.println ("wtf2: " + line.substring(47) + " " + wft2);
-//				        	System.out.println ("wtf3: " + line.substring(47) + " " + wft3);
 				        	if (!deleting.contains (line.substring(48)) && !editing.contains(line.substring(48)) && !allBlobs.contains(line))
 				        	{
 				        		allBlobs.add(line);
@@ -262,17 +260,29 @@ public class RCommit {
 		}
 		public String getTreeBefore (String currentTree) throws IOException
 		{
-			String c = parent;
 			String treeBefore = "";
-			while (!c.equals(""))
+			BufferedReader buffy = new BufferedReader (new FileReader ("objects/" + currentTree));
+			String line = buffy.readLine();
+			while (line != null)
 			{
-				if (getCommitTreeSHA (c).equals(currentTree))
+				if (line.contains("tree"))
 				{
-					return getCommitTreeSHA(getParentString (c));
+					treeBefore = line.substring (7);
 				}
-				c = getParentString (c);
+				line = buffy.readLine();
 			}
-			return "";
+			return treeBefore;
+//			String c = parent;
+//			String treeBefore = "";
+//			while (!c.equals(""))
+//			{
+//				if (getCommitTreeSHA (c).equals(currentTree))
+//				{
+//					return getCommitTreeSHA(getParentString (c));
+//				}
+//				c = getParentString (c);
+//			}
+//			return "";
 		}
 		
 		public ArrayList <String> getindexArray()

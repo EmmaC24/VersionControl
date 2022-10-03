@@ -66,6 +66,7 @@ class CommitJUnitTester {
 		
 		System.out.println ("RCommitTester is running :)");
 		RIndex i = new RIndex();
+		i.init();
 		i.generateHeadFile();
 		i.resetRIndexArrayList();
 		i.add("remy'sIndex1.txt");
@@ -101,6 +102,7 @@ class CommitJUnitTester {
 		
 		RCommit sixth = new RCommit ("summs", "Emma Miller");
 		i.resetRIndexArrayList();
+
 	}
 
 }
